@@ -9,7 +9,7 @@ from allosaurus.model import resolve_model_name, get_all_models
 from argparse import Namespace
 from io import BytesIO
 
-def read_recognizer(inference_config_or_name='latest', alt_model_path=None):
+def read_recognizer(inference_config_or_name='latest', alt_model_path=None, device_id=-1):
     if alt_model_path:
         if not alt_model_path.exists():
             download_model(inference_config_or_name, alt_model_path)
@@ -20,7 +20,7 @@ def read_recognizer(inference_config_or_name='latest', alt_model_path=None):
     # create default config if input is the model's name
     if isinstance(inference_config_or_name, str):
         model_name = resolve_model_name(inference_config_or_name, alt_model_path)
-        inference_config = Namespace(model=model_name, device_id=-1, lang='ipa', approximate=False, prior=None)
+        inference_config = Namespace(model=model_name, device_id=device_id, lang='ipa', approximate=False, prior=None)
     else:
         assert isinstance(inference_config_or_name, Namespace)
         inference_config = inference_config_or_name
